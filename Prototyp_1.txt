@@ -1,0 +1,35 @@
+const int pirPin = 2;
+const int ljudPin = 9;
+
+bool tidigareRorelse = false;
+
+void setup() {
+  pinMode(pirPin, INPUT);
+  pinMode(ljudPin, OUTPUT);
+  Serial.begin(9600); // Startar seriell kommunikation
+}
+
+void loop() {
+  bool rorelse = digitalRead(pirPin);
+
+  // Spela bara när signalen går från LOW till HIGH
+  if (rorelse && !tidigareRorelse) {
+    Serial.println("Rörelse upptäckt!"); // Stort 'S' i Serial
+    spelaMelodi();
+  }
+
+  tidigareRorelse = rorelse;
+}
+
+void spelaMelodi() {
+  tone(ljudPin, 523, 200);
+  delay(250);
+
+  tone(ljudPin, 659, 200);
+  delay(250);
+
+  tone(ljudPin, 784, 400);
+  delay(450);
+
+  noTone(ljudPin);
+}
